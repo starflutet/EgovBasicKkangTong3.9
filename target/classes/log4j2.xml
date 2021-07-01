@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Properties>
+		<Property name="logNm">EgovBasicKkangTong_3.9</Property>
+		<Property name="layoutPattern">%d [%t] %-5level %c(%M:%L) - %m%n</Property>		
+		<Property name="locpath">C:/dev/eGovFrameDev-3.9.0-64bit/CropSuperWorkSpace/KkangTongLog</Property>
+	</Properties>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${layoutPattern}" />
+		</Console>
+		<RollingFile name="file" fileName="${locpath}/${logNm}_Namal.log"
+			filePattern="${locpath}/${logNm}%d{yyyy-MM-dd}_Namal_%i.log">
+			<PatternLayout pattern="${layoutPattern}" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10MB" /> <!-- 10MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
+				<TimeBasedTriggeringPolicy module="true"
+					interval="1" /><!-- 일별 로그 파일 생성 -->
+			</Policies>
+			<DefaultRolloverStrategy max="500" fileIndex="min" /><!-- 롤링 파일 500개 까지 생성 -->
+		</RollingFile>
+		<RollingFile name="sqlfile" fileName="${locpath}/${logNm}_Sql.log"
+			filePattern="${locpath}/${logNm}%d{yyyy-MM-dd}_Sql_%i.log">
+			<PatternLayout pattern="${layoutPattern}" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10MB" /> <!-- 10MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
+				<TimeBasedTriggeringPolicy module="true"
+					interval="1" /><!-- 일별 로그 파일 생성 -->
+			</Policies>
+			<DefaultRolloverStrategy max="500" fileIndex="min" /><!-- 롤링 파일 500개 까지 생성 -->
+		</RollingFile>
+		<RollingFile name="err_file" fileName="${locpath}/${logNm}_Err.log"
+			filePattern="${locpath}/${logNm}err%d{yyyy-MM-dd}_Sql_%i.log">
+			<PatternLayout pattern="${layoutPattern}" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10MB" /> <!-- 10MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
+				<TimeBasedTriggeringPolicy module="true"
+					interval="1" /><!-- 일별 로그 파일 생성 -->
+			</Policies>
+			<DefaultRolloverStrategy max="500" fileIndex="min" /><!-- 롤링 파일 500개 까지 생성 -->
+		</RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="egovframework" level="DEBUG" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</Logger>
+		<logger name="jdbc.sqltiming" level="INFO" additivity="false">
+			<appender-ref ref="console" />
+			<appender-ref ref="sqlfile" />
+		</logger>
+		<logger name="org.springframework" level="INFO" additivity="false">
+			<appender-ref ref="console" />
+			<AppenderRef ref="file" />
+		</logger>
+		<logger name="java.sql.Connection" level="DEBUG" additivity="false">
+			<appender-ref ref="console" />
+			<appender-ref ref="sqlfile" />
+		</logger>
+		<logger name="java.sql.Statement" level="DEBUG" additivity="false">
+			<appender-ref ref="console" />
+			<appender-ref ref="sqlfile" />
+		</logger>
+		<logger name="java.sql.PreparedStatement" level="DEBUG"	additivity="false">
+			<appender-ref ref="console" />
+			<appender-ref ref="sqlfile" />
+		</logger>
+		<logger name="java.sql.ResultSet" level="DEBUG" additivity="false">
+			<appender-ref ref="console" />
+			<appender-ref ref="sqlfile" />
+		</logger>
+		<Root level="ERROR">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="err_file" />
+		</Root>
+    </Loggers>
+</Configuration>
